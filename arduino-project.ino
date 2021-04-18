@@ -1,14 +1,14 @@
 #include "config.h"
 #include "AnalogButtons.h"
-#include "tempMotor.h"
+#include "TempMotor.h"
 
 AnalogButtons analogButtons;
-int tempTarget = INITIAL_TEMP_TARGET;
+TempMotor tempMotor;
 
 void setup()
 {
     Serial.begin(SERIAL_BAUD_RATE);
-    pinMode(MOTOR_PIN, OUTPUT);
+    tempMotor.begin();
     delay(1000);
 }
 
@@ -18,8 +18,12 @@ void loop()
     int pressedButton = analogButtons.getState();
     pressedButton &&Serial.println(pressedButton);
     // Read Sensor Data
-    int currentTemp = readTemp(TEMP_PIN);
-    int motorSpeed = adjustMotorSpeed(currentTemp, tempTarget, MOTOR_PIN);
+    int temp = tempMotor.updateTemp();
+    int motorSpeed = tempMotor.updateSpeed();
+    Serial.print(temp);
+    Serial.print("C - ");
+    Serial.print(motorSpeed);
+    Serial.println("%");
     // Serial.print(motorSpeed);
     // Serial.print("% - ");
     // Serial.println(currentTemp);
@@ -29,5 +33,5 @@ void loop()
 
     // Output Handling
     // Render
-    delay(50);
+    delay(1000);
 }
