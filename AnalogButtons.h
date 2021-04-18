@@ -1,24 +1,20 @@
 #ifndef AnalogButtons_H
 #define AnalogButtons_H
 #include "arduino.h"
+#include "config.h"
 
 class AnalogButtons
 {
 public:
     int lastButtonState = 0;
-    int pin = A0;
-    int valuesCount = 5;
-    int values[5] = {500, 1200, 2500, 3400, 4800};
-    int valueEpsilon = 200;
-
     int getState()
     {
         int buttonState = 0;
-        int value = map(analogRead(pin), 0, 1023, 0, 5000);
+        int value = map(analogRead(BUTTONS_PIN), 0, 1023, 0, 5000);
 
-        for (int i = 0; i < valuesCount; i++)
+        for (int i = 0; i < BUTTONS_COUNT; i++)
         {
-            if (value > values[i] - valueEpsilon && value < values[i] + valueEpsilon)
+            if (value > (BUTTONS_ARRAY[i] - BUTTONS_EPSILON) && value < (BUTTONS_ARRAY[i] + BUTTONS_EPSILON))
             {
                 buttonState = i + 1;
                 break;
