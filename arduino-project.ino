@@ -25,9 +25,9 @@ void loop()
     // Read Serial Data
 
     // Update States
-    myDisplay.update(pressedButton);
+    myDisplay.navigate(pressedButton);
 
     // Render
     myDisplay.render();
-    delay(1000 / 60);
+    delay(FRAMETIME);
 }

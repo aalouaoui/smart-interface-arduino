@@ -2,6 +2,7 @@
 #define CONFIG
 
 const int SERIAL_BAUD_RATE = 9600;
+const float FRAMETIME = 1000 / 15;
 
 const int BUTTONS_PIN = A0;
 const int BUTTONS_COUNT = 5;
@@ -32,6 +33,8 @@ const char *OLED_MENU[] = {
     "Info",
     "Prix BTC",
 };
+const int OLED_MENU_COUNT = 7;
+
 const float GRAPH_Y_MULTIPLIER = 0.5;
 const int GRAPH_X_STEP = 8;
 const int GRAPH_X_START = 114;
@@ -39,5 +42,6 @@ const int GRAPH_X_COUNT = GRAPH_X_START / GRAPH_X_STEP;
 const int GRAPH_MAX_X = 123;
 const int GRAPH_MAX_Y = 63;
 const int GRAPH_LABEL_Y = 4;
+const int GRAPH_VALUE_X = 100;
 
 #endif

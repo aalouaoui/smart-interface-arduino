@@ -5,6 +5,7 @@
 #include <lcdgfx.h>
 #include <lcdgfx_gui.h>
 #include "config.h"
+#include "utils.h"
 
 DisplaySH1106_128x64_SPI OLED(8, {-1, 10, 9, 0, -1, -1});
 LcdGfxMenu mainMenu(OLED_MENU, sizeof(OLED_MENU) / sizeof(char *));
@@ -13,7 +14,8 @@ class MyDisplay
 {
 public:
     int state = -1;
-    bool shouldRefresh = true;
+    int values[OLED_MENU_COUNT][GRAPH_X_COUNT + 1] = {{0}};
+
     void begin()
     {
         OLED.begin();
@@ -21,9 +23,8 @@ public:
         OLED.clear();
     }
 
-    void update(int button)
+    void navigate(int button)
     {
-        shouldRefresh |= button != 0;
         switch (button)
         {
         case BTN_DOWN:
@@ -43,41 +44,37 @@ public:
 
     void renderGraph()
     {
-        int data[GRAPH_X_COUNT + 1];
-        for (int i = 0; i <= GRAPH_X_COUNT; i++)
-        {
-            data[i] = random(100);
-        }
+        shiftArrayRight(values[state], GRAPH_X_COUNT + 1);
+        values[state][0] = random(100);
 
         OLED.printFixed(0, GRAPH_LABEL_Y, OLED_MENU[state], STYLE_NORMAL);
+        OLED.printFixed(127 - 6 * 4, GRAPH_LABEL_Y, "150C", STYLE_NORMAL);
         for (int i = 0; i < GRAPH_X_COUNT; i++)
         {
             int x1 = min(GRAPH_X_START - GRAPH_X_STEP * i, GRAPH_MAX_X);
-            int y1 = min(GRAPH_MAX_Y - data[i] * GRAPH_Y_MULTIPLIER, GRAPH_MAX_Y);
+            int y1 = min(GRAPH_MAX_Y - values[state][i] * GRAPH_Y_MULTIPLIER, GRAPH_MAX_Y);
             int x2 = min(x1 - GRAPH_X_STEP, GRAPH_MAX_X);
-            int y2 = min(GRAPH_MAX_Y - data[i + 1] * GRAPH_Y_MULTIPLIER, GRAPH_MAX_Y);
+            int y2 = min(GRAPH_MAX_Y - values[state][i + 1] * GRAPH_Y_MULTIPLIER, GRAPH_MAX_Y);
             OLED.drawLine(x1, y1, x2, y2);
         }
     }
 
     void render()
     {
-        if (!shouldRefresh)
-            return;
         OLED.clear();
-        if (state == -1)
+        switch (state)
+        {
+        case -1:
             mainMenu.show(OLED);
-        else if (state == 0)
-        {
+            break;
+        case 0:
             renderGraph();
-        }
-        else
-        {
+            break;
+        default:
             char numChar[4];
             String(state).toCharArray(numChar, 4);
             OLED.printFixed(0, 8, numChar, STYLE_NORMAL);
         }
-        shouldRefresh = false;
     }
 };
 
