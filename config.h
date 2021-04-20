@@ -32,5 +32,12 @@ const char *OLED_MENU[] = {
     "Info",
     "Prix BTC",
 };
+const float GRAPH_Y_MULTIPLIER = 0.5;
+const int GRAPH_X_STEP = 8;
+const int GRAPH_X_START = 114;
+const int GRAPH_X_COUNT = GRAPH_X_START / GRAPH_X_STEP;
+const int GRAPH_MAX_X = 123;
+const int GRAPH_MAX_Y = 63;
+const int GRAPH_LABEL_Y = 4;
 
 #endif

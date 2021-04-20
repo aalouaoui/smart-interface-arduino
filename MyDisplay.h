@@ -41,6 +41,25 @@ public:
         }
     }
 
+    void renderGraph()
+    {
+        int data[GRAPH_X_COUNT + 1];
+        for (int i = 0; i <= GRAPH_X_COUNT; i++)
+        {
+            data[i] = random(100);
+        }
+
+        OLED.printFixed(0, GRAPH_LABEL_Y, OLED_MENU[state], STYLE_NORMAL);
+        for (int i = 0; i < GRAPH_X_COUNT; i++)
+        {
+            int x1 = min(GRAPH_X_START - GRAPH_X_STEP * i, GRAPH_MAX_X);
+            int y1 = min(GRAPH_MAX_Y - data[i] * GRAPH_Y_MULTIPLIER, GRAPH_MAX_Y);
+            int x2 = min(x1 - GRAPH_X_STEP, GRAPH_MAX_X);
+            int y2 = min(GRAPH_MAX_Y - data[i + 1] * GRAPH_Y_MULTIPLIER, GRAPH_MAX_Y);
+            OLED.drawLine(x1, y1, x2, y2);
+        }
+    }
+
     void render()
     {
         if (!shouldRefresh)
@@ -48,6 +67,10 @@ public:
         OLED.clear();
         if (state == -1)
             mainMenu.show(OLED);
+        else if (state == 0)
+        {
+            renderGraph();
+        }
         else
         {
             char numChar[4];
