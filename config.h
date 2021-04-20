@@ -16,7 +16,7 @@ enum BUTTONS_NAMES
     BTN_RIGHT
 };
 
-const int TEMP_PIN = A1;
+const int TEMP_PIN = A2;
 const int TEMP_MIN = 0;
 const int TEMP_MAX = 110;
 const int TEMP_DIFF_MULTIPLIER = 3;

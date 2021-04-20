@@ -12,7 +12,8 @@ LcdGfxMenu mainMenu(OLED_MENU, sizeof(OLED_MENU) / sizeof(char *));
 class MyDisplay
 {
 public:
-    int state = 0;
+    int state = -1;
+    bool shouldRefresh = true;
     void begin()
     {
         OLED.begin();
@@ -20,8 +21,9 @@ public:
         OLED.clear();
     }
 
-    void navigate(int button)
+    void update(int button)
     {
+        shouldRefresh |= button != 0;
         switch (button)
         {
         case BTN_DOWN:
@@ -30,13 +32,29 @@ public:
         case BTN_UP:
             mainMenu.up();
             break;
+        case BTN_RIGHT:
+            state = mainMenu.selection();
+            break;
+        case BTN_MENU:
+            state = -1;
+            break;
         }
     }
 
     void render()
     {
-        if (state == 0)
+        if (!shouldRefresh)
+            return;
+        OLED.clear();
+        if (state == -1)
             mainMenu.show(OLED);
+        else
+        {
+            char numChar[4];
+            String(state).toCharArray(numChar, 4);
+            OLED.printFixed(0, 8, numChar, STYLE_NORMAL);
+        }
+        shouldRefresh = false;
     }
 };
 
