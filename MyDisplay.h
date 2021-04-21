@@ -57,7 +57,7 @@ public:
         values[where][0] = value;
     }
 
-    void updateValueChar(char *value, int where)
+    void updateValueChar(char value[], int where)
     {
         valuesChar[where] = value;
     }

@@ -27,12 +27,15 @@ const int INITIAL_TEMP_TARGET = 20;
 const char *OLED_MENU[] = {
     "Temperature",
     "Ventilation",
+    "CPU Usage",
 };
-const int OLED_MENU_COUNT = 2;
+
+const int OLED_MENU_COUNT = 3;
 enum MENU_ITEMS
 {
     TEMPERATURE = 0,
-    VENTILATION
+    VENTILATION,
+    CPU_USAGE
 };
 const int OLED_CHAR_WIDTH = 4;
 
@@ -44,5 +47,6 @@ const int GRAPH_MAX_X = 123;
 const int GRAPH_MAX_Y = 63;
 const int GRAPH_LABEL_Y = 4;
 const int GRAPH_VALUE_X = 100;
+const int GRAPH_VALUE_MAX_LENGTH = 16;
 
 #endif

@@ -29,4 +29,19 @@ void concatValue(int number, char *unit, char *out, int len)
     value.toCharArray(out, len);
 }
 
+bool sliceString(String inputString, char *serialType, char *serialPercent, char *serialText)
+{
+    int del1 = inputString.indexOf(";");
+    int del2 = inputString.indexOf(";", del1 + 1);
+
+    if (del1 == -1 || del2 == -1 || del2 - del1 < 2)
+        return false;
+
+    inputString.substring(0, del1).toCharArray(serialType, del1 + 1);
+    inputString.substring(del1 + 1, del2).toCharArray(serialPercent, del2 - del1 + 1);
+    inputString.substring(del2 + 1, inputString.length() - 1).toCharArray(serialText, GRAPH_VALUE_MAX_LENGTH);
+
+    return true;
+}
+
 #endif
