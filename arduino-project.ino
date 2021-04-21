@@ -30,15 +30,30 @@ void loop()
     tempMotor.updateSpeed();
 
     // Read Serial Data
-    char serialType[inputString.length()];
-    char serialPercent[inputString.length()];
-    char serialText[GRAPH_VALUE_MAX_LENGTH];
     if (stringComplete)
     {
+        char serialType[inputString.length()];
+        char serialPercent[inputString.length()];
+        char serialText[inputString.length()];
         bool sliceSuccess = sliceString(inputString, serialType, serialPercent, serialText);
 
-        Serial.println(serialType);
-        Serial.println(serialPercent);
+        int screenToUpdate = -1;
+        if (String(serialType) == String("cpu"))
+            screenToUpdate = CPU_USAGE;
+
+        if (String(serialType) == String("ram"))
+            screenToUpdate = RAM;
+
+        if (screenToUpdate != -1 && sliceSuccess)
+        {
+            String percent = serialPercent;
+            String text = serialText;
+            char txt[GRAPH_VALUE_MAX_LENGTH];
+            text.toCharArray(txt, text.length() + 1);
+            myDisplay.updateValue(percent.toInt(), screenToUpdate);
+            myDisplay.updateValueChar(txt, screenToUpdate);
+        }
+
         Serial.println(serialText);
 
         inputString = "";
@@ -50,17 +65,6 @@ void loop()
     myDisplay.updateValueChar(tempMotor.tempText, TEMPERATURE);
     myDisplay.updateValue(tempMotor.speed, VENTILATION);
     myDisplay.updateValueChar(tempMotor.speedText, VENTILATION);
-
-    int screenToUpdate = -1;
-    String percent = serialPercent;
-    if (strcmp(serialType, "cpu") == 0)
-        screenToUpdate = CPU_USAGE;
-
-    if (screenToUpdate != -1)
-    {
-        myDisplay.updateValue(percent.toInt(), screenToUpdate);
-        myDisplay.updateValueChar(serialText, screenToUpdate);
-    }
 
     // Render
     myDisplay.render();

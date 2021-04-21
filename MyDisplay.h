@@ -59,6 +59,7 @@ public:
 
     void updateValueChar(char value[], int where)
     {
+        valuesChar[where] = "";
         valuesChar[where] = value;
     }
 

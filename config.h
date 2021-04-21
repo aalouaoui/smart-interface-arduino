@@ -28,14 +28,15 @@ const char *OLED_MENU[] = {
     "Temperature",
     "Ventilation",
     "CPU Usage",
-};
+    "RAM"};
 
-const int OLED_MENU_COUNT = 3;
+const int OLED_MENU_COUNT = 4;
 enum MENU_ITEMS
 {
     TEMPERATURE = 0,
     VENTILATION,
-    CPU_USAGE
+    CPU_USAGE,
+    RAM
 };
 const int OLED_CHAR_WIDTH = 4;
 
