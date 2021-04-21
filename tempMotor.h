@@ -33,10 +33,7 @@ public:
         if (autoMode)
         {
             speed = (temp - targetTemp) * TEMP_DIFF_MULTIPLIER;
-            if (speed > 100)
-                speed = 100;
-            if (speed < 0)
-                speed = 0;
+            speed = constrain(speed, 0, 100);
         }
         concatValue(speed, "%", speedText, 10);
         analogWrite(MOTOR_PIN, speed * 2.5);

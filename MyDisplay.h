@@ -79,22 +79,7 @@ public:
     void render()
     {
         OLED.clear();
-        switch (state)
-        {
-        case -1:
-            mainMenu.show(OLED);
-            break;
-        case 0:
-            renderGraph();
-            break;
-        case 1:
-            renderGraph();
-            break;
-        default:
-            char numChar[4];
-            String(state).toCharArray(numChar, 4);
-            OLED.printFixed(0, 8, numChar, STYLE_NORMAL);
-        }
+        state == -1 ? mainMenu.show(OLED) : renderGraph();
     }
 };
 

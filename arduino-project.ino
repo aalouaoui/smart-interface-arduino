@@ -22,14 +22,14 @@ void loop()
     myDisplay.navigate(pressedButton);
 
     // Read Sensor Data
-    int temp = tempMotor.updateTemp();
-    int motorSpeed = tempMotor.updateSpeed();
+    tempMotor.updateTemp();
+    tempMotor.updateSpeed();
     // Read Serial Data
 
     // Update States
     myDisplay.updateValue(tempMotor.tempPercent, TEMPERATURE);
     myDisplay.updateValueChar(tempMotor.tempText, TEMPERATURE);
-    myDisplay.updateValue(motorSpeed, VENTILATION);
+    myDisplay.updateValue(tempMotor.speed, VENTILATION);
     myDisplay.updateValueChar(tempMotor.speedText, VENTILATION);
 
     // Render
