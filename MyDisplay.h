@@ -34,9 +34,13 @@ public:
         {
         case BTN_DOWN:
             mainMenu.down();
+            if (state != -1)
+                state = mainMenu.selection();
             break;
         case BTN_UP:
             mainMenu.up();
+            if (state != -1)
+                state = mainMenu.selection();
             break;
         case BTN_RIGHT:
             state = mainMenu.selection();

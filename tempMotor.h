@@ -11,6 +11,7 @@ public:
     char tempText[10];
     int targetTemp = INITIAL_TEMP_TARGET;
     int speed;
+    char speedText[10];
     bool autoMode = true;
 
     void begin()
@@ -37,6 +38,7 @@ public:
             if (speed < 0)
                 speed = 0;
         }
+        concatValue(speed, "%", speedText, 10);
         analogWrite(MOTOR_PIN, speed * 2.5);
         return speed;
     }

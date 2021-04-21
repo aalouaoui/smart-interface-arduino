@@ -6,7 +6,7 @@ const float FRAMETIME = 1000 / 15;
 
 const int BUTTONS_PIN = A0;
 const int BUTTONS_COUNT = 5;
-const int BUTTONS_ARRAY[5] = {500, 1200, 2500, 3400, 4800};
+const int BUTTONS_ARRAY[5] = {500, 1200, 2500, 3400, 4700};
 const int BUTTONS_EPSILON = 200;
 enum BUTTONS_NAMES
 {
@@ -27,18 +27,13 @@ const int INITIAL_TEMP_TARGET = 20;
 const char *OLED_MENU[] = {
     "Temperature",
     "Ventilation",
-    "Processeur",
-    "RAM",
-    "Stockage",
-    "Info",
-    "Prix BTC",
 };
+const int OLED_MENU_COUNT = 2;
 enum MENU_ITEMS
 {
     TEMPERATURE = 0,
     VENTILATION
 };
-const int OLED_MENU_COUNT = 7;
 const int OLED_CHAR_WIDTH = 4;
 
 const float GRAPH_Y_MULTIPLIER = 0.5;

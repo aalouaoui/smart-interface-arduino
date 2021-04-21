@@ -30,6 +30,7 @@ void loop()
     myDisplay.updateValue(tempMotor.tempPercent, TEMPERATURE);
     myDisplay.updateValueChar(tempMotor.tempText, TEMPERATURE);
     myDisplay.updateValue(motorSpeed, VENTILATION);
+    myDisplay.updateValueChar(tempMotor.speedText, VENTILATION);
 
     // Render
     myDisplay.render();
