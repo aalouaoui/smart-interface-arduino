@@ -19,13 +19,17 @@ void loop()
 {
     // Input Handling
     int pressedButton = analogButtons.getState();
+    myDisplay.navigate(pressedButton);
+
     // Read Sensor Data
     int temp = tempMotor.updateTemp();
     int motorSpeed = tempMotor.updateSpeed();
     // Read Serial Data
 
     // Update States
-    myDisplay.navigate(pressedButton);
+    myDisplay.updateValue(tempMotor.tempPercent, TEMPERATURE);
+    myDisplay.updateValueChar(tempMotor.tempText, TEMPERATURE);
+    myDisplay.updateValue(motorSpeed, VENTILATION);
 
     // Render
     myDisplay.render();

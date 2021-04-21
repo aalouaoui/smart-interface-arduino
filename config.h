@@ -33,7 +33,13 @@ const char *OLED_MENU[] = {
     "Info",
     "Prix BTC",
 };
+enum MENU_ITEMS
+{
+    TEMPERATURE = 0,
+    VENTILATION
+};
 const int OLED_MENU_COUNT = 7;
+const int OLED_CHAR_WIDTH = 4;
 
 const float GRAPH_Y_MULTIPLIER = 0.5;
 const int GRAPH_X_STEP = 8;

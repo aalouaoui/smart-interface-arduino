@@ -15,12 +15,17 @@ class MyDisplay
 public:
     int state = -1;
     int values[OLED_MENU_COUNT][GRAPH_X_COUNT + 1] = {{0}};
+    char *valuesChar[OLED_MENU_COUNT];
 
     void begin()
     {
         OLED.begin();
         OLED.setFixedFont(ssd1306xled_font6x8);
         OLED.clear();
+        for (int i = 0; i < OLED_MENU_COUNT; i++)
+        {
+            valuesChar[i] = "No Val";
+        }
     }
 
     void navigate(int button)
@@ -42,13 +47,21 @@ public:
         }
     }
 
+    void updateValue(int value, int where)
+    {
+        shiftArrayRight(values[where], GRAPH_X_COUNT + 1);
+        values[where][0] = value;
+    }
+
+    void updateValueChar(char *value, int where)
+    {
+        valuesChar[where] = value;
+    }
+
     void renderGraph()
     {
-        shiftArrayRight(values[state], GRAPH_X_COUNT + 1);
-        values[state][0] = random(100);
-
         OLED.printFixed(0, GRAPH_LABEL_Y, OLED_MENU[state], STYLE_NORMAL);
-        OLED.printFixed(127 - 6 * 4, GRAPH_LABEL_Y, "150C", STYLE_NORMAL);
+        OLED.printFixed(getXPos(valuesChar[state]), GRAPH_LABEL_Y, valuesChar[state], STYLE_NORMAL);
         for (int i = 0; i < GRAPH_X_COUNT; i++)
         {
             int x1 = min(GRAPH_X_START - GRAPH_X_STEP * i, GRAPH_MAX_X);
@@ -68,6 +81,9 @@ public:
             mainMenu.show(OLED);
             break;
         case 0:
+            renderGraph();
+            break;
+        case 1:
             renderGraph();
             break;
         default:
