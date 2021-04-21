@@ -1,5 +1,5 @@
 {
     "board": "arduino:avr:uno",
     "sketch": "arduino-project.ino",
-    "port": "COM3"
+    "port": "/dev/ttyACM0"
 }

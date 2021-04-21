@@ -1,6 +1,5 @@
 #ifndef AnalogButtons_H
 #define AnalogButtons_H
-#include "arduino.h"
 #include "config.h"
 
 class AnalogButtons
