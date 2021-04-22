@@ -17,6 +17,7 @@ def get_cpu_msg():
     cpu_msg = f"cpu;{cpu_usage:.0f};{cpu_usage}%\n"
     return cpu_msg.encode()
 
+
 def get_ram_msg():
     svmem = psutil.virtual_memory()
     ram_percent = svmem.percent
@@ -25,8 +26,9 @@ def get_ram_msg():
     ram_msg = f"ram;{ram_percent:.0f};{ram_used}/{ram_size}\n"
     return ram_msg.encode()
 
-# ser = serial.Serial("COM3", 11520)
-ser = serial.Serial("/dev/ttyACM0", 11520)
+
+ser = serial.Serial("COM3", 11520)
+# ser = serial.Serial("/dev/ttyACM0", 11520)
 if(ser.is_open):
     ser.close()
 ser.open()

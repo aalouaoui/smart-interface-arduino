@@ -15,17 +15,16 @@ class MyDisplay
 public:
     int state = -1;
     int values[OLED_MENU_COUNT][GRAPH_X_COUNT + 1] = {{0}};
-    char *valuesChar[OLED_MENU_COUNT];
+    char tempText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
+    char motorText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
+    char cpuText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
+    char ramText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
 
     void begin()
     {
         OLED.begin();
         OLED.setFixedFont(ssd1306xled_font6x8);
         OLED.clear();
-        for (int i = 0; i < OLED_MENU_COUNT; i++)
-        {
-            valuesChar[i] = "No Val";
-        }
     }
 
     void navigate(int button)
@@ -59,14 +58,67 @@ public:
 
     void updateValueChar(char value[], int where)
     {
-        valuesChar[where] = "";
-        valuesChar[where] = value;
+        switch (where)
+        {
+        case TEMPERATURE:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                tempText[i] = value[i];
+            }
+            break;
+        case VENTILATION:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                motorText[i] = value[i];
+            }
+            break;
+        case CPU_USAGE:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                cpuText[i] = value[i];
+            }
+            break;
+        case RAM:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                ramText[i] = value[i];
+            }
+            break;
+        }
     }
 
     void renderGraph()
     {
+        char text[GRAPH_VALUE_MAX_LENGTH];
+        switch (state)
+        {
+        case TEMPERATURE:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                text[i] = tempText[i];
+            }
+            break;
+        case VENTILATION:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                text[i] = motorText[i];
+            }
+            break;
+        case CPU_USAGE:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                text[i] = cpuText[i];
+            }
+            break;
+        case RAM:
+            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
+            {
+                text[i] = ramText[i];
+            }
+            break;
+        }
         OLED.printFixed(0, GRAPH_LABEL_Y, OLED_MENU[state], STYLE_NORMAL);
-        OLED.printFixed(getXPos(valuesChar[state]), GRAPH_LABEL_Y, valuesChar[state], STYLE_NORMAL);
+        OLED.printFixed(getXPos(text), GRAPH_LABEL_Y, text, STYLE_NORMAL);
         for (int i = 0; i < GRAPH_X_COUNT; i++)
         {
             int x1 = min(GRAPH_X_START - GRAPH_X_STEP * i, GRAPH_MAX_X);
