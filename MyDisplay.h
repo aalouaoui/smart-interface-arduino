@@ -19,6 +19,7 @@ public:
     char motorText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
     char cpuText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
     char ramText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
+    char *valuesChar[OLED_MENU_COUNT] = {tempText, motorText, cpuText, ramText};
 
     void begin()
     {
@@ -89,34 +90,7 @@ public:
 
     void renderGraph()
     {
-        char text[GRAPH_VALUE_MAX_LENGTH];
-        switch (state)
-        {
-        case TEMPERATURE:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                text[i] = tempText[i];
-            }
-            break;
-        case VENTILATION:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                text[i] = motorText[i];
-            }
-            break;
-        case CPU_USAGE:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                text[i] = cpuText[i];
-            }
-            break;
-        case RAM:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                text[i] = ramText[i];
-            }
-            break;
-        }
+        char *text = valuesChar[state];
         OLED.printFixed(0, GRAPH_LABEL_Y, OLED_MENU[state], STYLE_NORMAL);
         OLED.printFixed(getXPos(text), GRAPH_LABEL_Y, text, STYLE_NORMAL);
         for (int i = 0; i < GRAPH_X_COUNT; i++)
