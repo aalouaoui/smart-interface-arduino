@@ -6,7 +6,7 @@ const float FRAMETIME = 1000 / 15;
 
 const int BUTTONS_PIN = A0;
 const int BUTTONS_COUNT = 5;
-const int BUTTONS_ARRAY[5] = {500, 1200, 2500, 3400, 4700};
+const int BUTTONS_ARRAY[5] = {500, 1200, 2500, 3400, 4800};
 const int BUTTONS_EPSILON = 200;
 enum BUTTONS_NAMES
 {

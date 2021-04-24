@@ -27,7 +27,10 @@ def get_ram_msg():
     return ram_msg.encode()
 
 
-ser = serial.Serial("COM3", 11520)
+port = "COM3" if(psutil.WINDOWS) else "/dev/ttyACM0"
+
+ser = serial.Serial(port, 11520)
+# ser = serial.Serial("COM3", 11520)
 # ser = serial.Serial("/dev/ttyACM0", 11520)
 if(ser.is_open):
     ser.close()
@@ -36,7 +39,7 @@ time.sleep(4)
 while True:
     # ser.write(cpu_msg.encode())
     ser.write(get_cpu_msg())
-    time.sleep(1)
+    time.sleep(0.25)
     # ser.write(ram_msg.encode())
     ser.write(get_ram_msg())
-    time.sleep(1)
+    time.sleep(0.25)
