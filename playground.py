@@ -63,3 +63,12 @@ print(get_ram())
 print(get_disk_usage())
 # print(f"Cores: {psutil.cpu_count(logical=False)}")
 # print(f"Threads: {psutil.cpu_count()}")
+
+
+# Sample Output
+# b'{"type": "graph", "name": "cpu_usage", "val": 3, "label": "3.0%"}\n'
+# b'{"type": "graph", "name": "cpu_frq", "val": 30, "label": "836MHz"}\n'
+# b'{"type": "graph", "name": "cpu_tmp", "val": 33, "label": "33.0C"}\n'
+# b'{"type": "graph", "name": "cpu_fan", "val": 66, "label": "2100RPM"}\n'
+# b'{"type": "graph", "name": "ram_usage", "val": 40, "label": "3.7G/11.1G"}\n'
+# b'{"type": "graph", "name": "disk_usage", "val": 14, "label": "8.7G/63.5G"}\n'

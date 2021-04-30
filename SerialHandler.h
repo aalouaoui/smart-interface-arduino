@@ -31,12 +31,23 @@ public:
 
         else
         {
-            const char *type = doc["type"];
-            Serial.println(type);
+            const char *dataType = doc["type"];
+            if (String(dataType) == String("graph"))
+            {
+                const char *name = doc["name"];
+                const int newValue = doc["val"];
+                const char *label = doc["label"];
+                Serial.print(name);
+                Serial.print("-");
+                Serial.print(newValue);
+                Serial.print("-");
+                Serial.println(label);
+            }
         }
 
         strlcpy(inputString, "", SERIAL_MAX_LENGTH);
         stringComplete = false;
+        inputIndex = 0;
     }
     void listen()
     {

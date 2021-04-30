@@ -36,6 +36,16 @@ const char *OLED_MENU[OLED_MENU_COUNT] = {
     "RAM",
     "Disk Usage",
 };
+const char *MENU_ABBR[OLED_MENU_COUNT] = {
+    "tmp",
+    "vent",
+    "cpu_usage",
+    "cpu_frq",
+    "cpu_tmp",
+    "cpu_fan",
+    "ram_usage",
+    "disk_usage",
+};
 enum MENU_ITEMS
 {
     TEMPERATURE = 0,
