@@ -34,7 +34,7 @@ const char *OLED_MENU[OLED_MENU_COUNT] = {
     "CPU Temp",
     "CPU Fan",
     "RAM",
-    "Disk Usage",
+    "Disk",
 };
 const char *MENU_ABBR[OLED_MENU_COUNT] = {
     "tmp",
