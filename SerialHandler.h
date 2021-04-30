@@ -2,6 +2,7 @@
 #define SerialHandler_h
 #include <ArduinoJson.h>
 #include "config.h"
+#include "utils.h"
 
 class SerialHandler
 {
@@ -37,11 +38,17 @@ public:
                 const char *name = doc["name"];
                 const int newValue = doc["val"];
                 const char *label = doc["label"];
-                Serial.print(name);
-                Serial.print("-");
-                Serial.print(newValue);
-                Serial.print("-");
-                Serial.println(label);
+                int stateIndex = getIndexByKey(MENU_ABBR, name, OLED_MENU_COUNT);
+                if (stateIndex != -1)
+                {
+                    Serial.print(stateIndex);
+                    Serial.print("-");
+                    Serial.print(name);
+                    Serial.print("-");
+                    Serial.print(newValue);
+                    Serial.print("-");
+                    Serial.println(label);
+                }
             }
         }
 

@@ -44,4 +44,14 @@ bool sliceString(String inputString, char *serialType, char *serialPercent, char
     return true;
 }
 
+int getIndexByKey(const char *arr[], const char *key, int length)
+{
+    for (int i = 0; i < length; i++)
+    {
+        if (String(arr[i]) == String(key))
+            return i;
+    }
+    return -1;
+}
+
 #endif
