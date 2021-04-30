@@ -2,20 +2,18 @@
 #include "AnalogButtons.h"
 #include "TempMotor.h"
 #include "MyDisplay.h"
+#include "SerialHandler.h"
 
 AnalogButtons analogButtons;
 TempMotor tempMotor;
 MyDisplay myDisplay;
-
-String inputString = "";
-bool stringComplete = false;
+SerialHandler serialHandler;
 
 void setup()
 {
-    Serial.begin(SERIAL_BAUD_RATE);
-    inputString.reserve(200);
     tempMotor.begin();
     myDisplay.begin();
+    serialHandler.init();
     delay(1000);
 }
 
@@ -30,35 +28,7 @@ void loop()
     tempMotor.updateSpeed();
 
     // Read Serial Data
-    if (stringComplete)
-    {
-        char serialType[inputString.length()];
-        char serialPercent[inputString.length()];
-        char serialText[inputString.length()];
-        bool sliceSuccess = sliceString(inputString, serialType, serialPercent, serialText);
-
-        int screenToUpdate = -1;
-        if (String(serialType) == String("cpu"))
-            screenToUpdate = CPU_USAGE;
-
-        if (String(serialType) == String("ram"))
-            screenToUpdate = RAM;
-
-        if (screenToUpdate != -1 && sliceSuccess)
-        {
-            String percent = serialPercent;
-            String text = serialText;
-            char txt[GRAPH_VALUE_MAX_LENGTH];
-            text.toCharArray(txt, text.length() + 1);
-            myDisplay.updateValue(percent.toInt(), screenToUpdate);
-            myDisplay.updateValueChar(txt, screenToUpdate);
-        }
-
-        Serial.println(serialText);
-
-        inputString = "";
-        stringComplete = false;
-    }
+    serialHandler.update();
 
     // Update States
     myDisplay.updateValue(tempMotor.tempPercent, TEMPERATURE);
@@ -73,11 +43,5 @@ void loop()
 
 void serialEvent()
 {
-    while (Serial.available())
-    {
-        char inChar = (char)Serial.read();
-        inputString += inChar;
-        if (inChar == '\n')
-            stringComplete = true;
-    }
+    serialHandler.listen();
 }

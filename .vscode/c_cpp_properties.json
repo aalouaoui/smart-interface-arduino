@@ -20,6 +20,7 @@
                 "/home/khalid/Downloads/arduino-1.8.13-linux64/arduino-1.8.13/hardware/arduino/avr/variants/standard",
                 "/home/khalid/Arduino/libraries/lcdgfx/src",
                 "/home/khalid/Downloads/arduino-1.8.13-linux64/arduino-1.8.13/hardware/arduino/avr/libraries/SPI/src",
+                "/home/khalid/Arduino/libraries/ArduinoJson/src",
                 "/home/khalid/Downloads/arduino-1.8.13-linux64/arduino-1.8.13/hardware/arduino/avr/libraries/Wire/src",
                 "/home/khalid/Downloads/arduino-1.8.13-linux64/arduino-1.8.13/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
                 "/home/khalid/Downloads/arduino-1.8.13-linux64/arduino-1.8.13/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
