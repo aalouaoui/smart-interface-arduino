@@ -59,32 +59,9 @@ public:
 
     void updateValueChar(char value[], int where)
     {
-        switch (where)
+        for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
         {
-        case TEMPERATURE:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                tempText[i] = value[i];
-            }
-            break;
-        case VENTILATION:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                motorText[i] = value[i];
-            }
-            break;
-        case CPU_USAGE:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                cpuText[i] = value[i];
-            }
-            break;
-        case RAM:
-            for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-            {
-                ramText[i] = value[i];
-            }
-            break;
+            valuesChar[where][i] = value[i];
         }
     }
 
