@@ -29,9 +29,8 @@ def get_ram_msg():
 
 port = "COM3" if(psutil.WINDOWS) else "/dev/ttyACM0"
 
-ser = serial.Serial(port, 11520)
-# ser = serial.Serial("COM3", 11520)
-# ser = serial.Serial("/dev/ttyACM0", 11520)
+ser = serial.Serial(port, 9600)
+
 if(ser.is_open):
     ser.close()
 ser.open()
