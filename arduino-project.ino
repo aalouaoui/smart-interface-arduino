@@ -17,6 +17,8 @@ void setup()
     delay(1000);
 }
 
+int cycles = 0;
+
 void loop()
 {
     // Input Handling
@@ -24,8 +26,13 @@ void loop()
     myDisplay.navigate(pressedButton);
 
     // Read Sensor Data
-    tempMotor.updateTemp();
-    tempMotor.updateSpeed();
+    if (cycles == 0)
+    {
+        tempMotor.updateTemp();
+        tempMotor.updateSpeed();
+    }
+    cycles++;
+    cycles %= 4;
 
     // Read Serial Data
     serialHandler.update(myDisplay);
