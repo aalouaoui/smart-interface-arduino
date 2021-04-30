@@ -25,20 +25,29 @@ const int TEMP_DIFF_MULTIPLIER = 3;
 const int MOTOR_PIN = 3;
 const int INITIAL_TEMP_TARGET = 20;
 
-const char *OLED_MENU[] = {
+const int OLED_MENU_COUNT = 8;
+const char *OLED_MENU[OLED_MENU_COUNT] = {
     "Temperature",
     "Ventilation",
     "CPU Usage",
-    "RAM"};
-
-const int OLED_MENU_COUNT = 4;
+    "CPU Clock",
+    "CPU Temp",
+    "CPU Fan",
+    "RAM",
+    "Disk Usage",
+};
 enum MENU_ITEMS
 {
     TEMPERATURE = 0,
     VENTILATION,
     CPU_USAGE,
-    RAM
+    CPU_CLOCK,
+    CPU_TEMP,
+    CPU_FAN,
+    RAM,
+    DISK_USAGE
 };
+
 const int OLED_CHAR_WIDTH = 4;
 
 const float GRAPH_Y_MULTIPLIER = 0.5;

@@ -15,13 +15,17 @@ class MyDisplay
 public:
     int state = -1;
     int values[OLED_MENU_COUNT][GRAPH_X_COUNT + 1] = {{0}};
-    char valuesChar[OLED_MENU_COUNT][GRAPH_VALUE_MAX_LENGTH] = {"No Val", "No Val", "No Val", "No Val"};
+    char valuesChar[OLED_MENU_COUNT][GRAPH_VALUE_MAX_LENGTH];
 
     void begin()
     {
         OLED.begin();
         OLED.setFixedFont(ssd1306xled_font6x8);
         OLED.clear();
+        for (int i = 0; i < OLED_MENU_COUNT; i++)
+        {
+            strlcpy(valuesChar[i], "No Val", GRAPH_VALUE_MAX_LENGTH);
+        }
     }
 
     void navigate(int button)
@@ -55,10 +59,7 @@ public:
 
     void updateValueChar(char value[], int where)
     {
-        for (int i = 0; i < GRAPH_VALUE_MAX_LENGTH; i++)
-        {
-            valuesChar[where][i] = value[i];
-        }
+        strlcpy(valuesChar[where], value, GRAPH_VALUE_MAX_LENGTH);
     }
 
     void renderGraph()
