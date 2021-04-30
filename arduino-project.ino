@@ -28,7 +28,7 @@ void loop()
     tempMotor.updateSpeed();
 
     // Read Serial Data
-    serialHandler.update();
+    serialHandler.update(myDisplay);
 
     // Update States
     myDisplay.updateValue(tempMotor.tempPercent, TEMPERATURE);

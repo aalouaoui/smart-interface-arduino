@@ -1,9 +1,9 @@
 #ifndef CONFIG
 #define CONFIG
 
-const int SERIAL_BAUD_RATE = 9600;
+const int SERIAL_BAUD_RATE = 19200;
 const int SERIAL_MAX_LENGTH = 200;
-const float FRAMETIME = 1000 / 15;
+const float FRAMETIME = 1000 / 60;
 
 const int BUTTONS_PIN = A0;
 const int BUTTONS_COUNT = 5;

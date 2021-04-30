@@ -4,9 +4,9 @@ import serial
 import time
 
 port = "COM3" if(psutil.WINDOWS) else "/dev/ttyACM0"
-baud_rate = 9600
+baud_rate = 19200
 init_wait = 4
-send_deltatime = 0.25
+send_deltatime = 0.2
 
 ser = serial.Serial(port, baud_rate)
 
