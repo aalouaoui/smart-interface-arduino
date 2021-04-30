@@ -25,7 +25,8 @@ const int TEMP_DIFF_MULTIPLIER = 3;
 const int MOTOR_PIN = 3;
 const int INITIAL_TEMP_TARGET = 20;
 
-const int OLED_MENU_COUNT = 8;
+const int OLED_MENU_COUNT = 9;
+const int OLED_LAST_GRAPH = 7;
 const char *OLED_MENU[OLED_MENU_COUNT] = {
     "Temperature",
     "Ventilation",
@@ -35,6 +36,7 @@ const char *OLED_MENU[OLED_MENU_COUNT] = {
     "CPU Fan",
     "RAM",
     "Disk",
+    "Motor Control",
 };
 const char *MENU_ABBR[OLED_MENU_COUNT] = {
     "tmp",
@@ -45,6 +47,7 @@ const char *MENU_ABBR[OLED_MENU_COUNT] = {
     "cpu_fan",
     "ram_usage",
     "disk_usage",
+    "mot_ctl",
 };
 enum MENU_ITEMS
 {
@@ -55,7 +58,8 @@ enum MENU_ITEMS
     CPU_TEMP,
     CPU_FAN,
     RAM,
-    DISK_USAGE
+    DISK_USAGE,
+    MOTOR_CONTROL
 };
 
 const int OLED_CHAR_WIDTH = 4;

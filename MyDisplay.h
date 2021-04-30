@@ -8,7 +8,7 @@
 #include "utils.h"
 
 DisplaySH1106_128x64_SPI OLED(8, {-1, 10, 9, 0, -1, -1});
-LcdGfxMenu mainMenu(OLED_MENU, sizeof(OLED_MENU) / sizeof(char *));
+LcdGfxMenu mainMenu(OLED_MENU, OLED_MENU_COUNT);
 
 class MyDisplay
 {
@@ -30,24 +30,39 @@ public:
 
     void navigate(int button)
     {
-        switch (button)
+        if (button == BTN_MENU)
         {
-        case BTN_DOWN:
-            mainMenu.down();
-            if (state != -1)
-                state = mainMenu.selection();
-            break;
-        case BTN_UP:
-            mainMenu.up();
-            if (state != -1)
-                state = mainMenu.selection();
-            break;
-        case BTN_RIGHT:
-            state = mainMenu.selection();
-            break;
-        case BTN_MENU:
             state = -1;
-            break;
+            return;
+        }
+        if (state == -1)
+        {
+            switch (button)
+            {
+            case BTN_DOWN:
+                mainMenu.down();
+                break;
+            case BTN_UP:
+                mainMenu.up();
+                break;
+            case BTN_RIGHT:
+                state = mainMenu.selection();
+                break;
+            }
+        }
+        else if (state <= OLED_LAST_GRAPH)
+        {
+            switch (button)
+            {
+            case BTN_UP:
+                mainMenu.up();
+                state = mainMenu.selection();
+                break;
+            case BTN_DOWN:
+                mainMenu.down();
+                state = mainMenu.selection();
+                break;
+            }
         }
     }
 
@@ -80,7 +95,12 @@ public:
     void render()
     {
         OLED.clear();
-        state == -1 ? mainMenu.show(OLED) : renderGraph();
+        if (state == -1)
+            mainMenu.show(OLED);
+        else if (state <= OLED_LAST_GRAPH)
+            renderGraph();
+        else
+            OLED.printFixed(0, 0, "Not Yet", STYLE_NORMAL);
     }
 };
 
