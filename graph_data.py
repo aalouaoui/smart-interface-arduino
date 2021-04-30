@@ -55,12 +55,16 @@ def get_disk_usage():
     return format_output("disk_usage", used, total, f"{get_size(used)}/{get_size(total)}")
 
 
-print(get_cpu_usage())
-print(get_cpu_clock())
-print(get_cpu_temp())
-print(get_cpu_fan())
-print(get_ram())
-print(get_disk_usage())
+def get_graph_data():
+    return [get_cpu_usage(), get_cpu_clock(), get_cpu_temp(), get_cpu_fan(), get_ram(), get_disk_usage()]
+
+
+# print(get_cpu_usage())
+# print(get_cpu_clock())
+# print(get_cpu_temp())
+# print(get_cpu_fan())
+# print(get_ram())
+# print(get_disk_usage())
 # print(f"Cores: {psutil.cpu_count(logical=False)}")
 # print(f"Threads: {psutil.cpu_count()}")
 
