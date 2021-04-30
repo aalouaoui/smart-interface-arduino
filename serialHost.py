@@ -14,7 +14,10 @@ if(ser.is_open):
     ser.close()
 ser.open()
 time.sleep(init_wait)
-while True:
-    for data in get_graph_data():
-        ser.write(data)
-        time.sleep(send_deltatime)
+try:
+    while True:
+        for data in get_graph_data():
+            ser.write(data)
+            time.sleep(send_deltatime)
+except KeyboardInterrupt:
+    ser.close()
