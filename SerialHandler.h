@@ -16,6 +16,12 @@ public:
     {
         Serial.begin(SERIAL_BAUD_RATE);
     }
+    void resetInput()
+    {
+        strlcpy(inputString, "", SERIAL_MAX_LENGTH);
+        stringComplete = false;
+        inputIndex = 0;
+    }
     void update(MyDisplay &display)
     {
         if (!stringComplete)
@@ -28,28 +34,24 @@ public:
         {
             Serial.print(F("deserializeJson() failed: "));
             Serial.println(error.f_str());
+            this->resetInput();
+            return;
         }
 
-        else
+        const char *dataType = doc["type"];
+        if (String(dataType) == String("graph"))
         {
-            const char *dataType = doc["type"];
-            if (String(dataType) == String("graph"))
+            const char *name = doc["name"];
+            const int newValue = doc["val"];
+            char *label = doc["label"];
+            int stateIndex = getIndexByKey(MENU_ABBR, name, OLED_MENU_COUNT);
+            if (stateIndex != -1)
             {
-                const char *name = doc["name"];
-                const int newValue = doc["val"];
-                char *label = doc["label"];
-                int stateIndex = getIndexByKey(MENU_ABBR, name, OLED_MENU_COUNT);
-                if (stateIndex != -1)
-                {
-                    display.updateValue(newValue, stateIndex);
-                    display.updateValueChar(label, stateIndex);
-                }
+                display.updateValue(newValue, stateIndex);
+                display.updateValueChar(label, stateIndex);
             }
         }
-
-        strlcpy(inputString, "", SERIAL_MAX_LENGTH);
-        stringComplete = false;
-        inputIndex = 0;
+        this->resetInput();
     }
     void listen()
     {
