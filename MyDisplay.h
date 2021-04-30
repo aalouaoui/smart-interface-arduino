@@ -15,11 +15,7 @@ class MyDisplay
 public:
     int state = -1;
     int values[OLED_MENU_COUNT][GRAPH_X_COUNT + 1] = {{0}};
-    char tempText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
-    char motorText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
-    char cpuText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
-    char ramText[GRAPH_VALUE_MAX_LENGTH] = "No Val";
-    char *valuesChar[OLED_MENU_COUNT] = {tempText, motorText, cpuText, ramText};
+    char valuesChar[OLED_MENU_COUNT][GRAPH_VALUE_MAX_LENGTH] = {"No Val", "No Val", "No Val", "No Val"};
 
     void begin()
     {
