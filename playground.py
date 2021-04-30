@@ -1,5 +1,6 @@
 import psutil
 import json
+import shutil
 
 
 def get_size(bytes):
@@ -10,31 +11,35 @@ def get_size(bytes):
         bytes /= factor
 
 
-def format_output(**obj):
+def format_output(name, val, max_val, label):
+    obj = dict(type="graph",
+               name=name, val=round(100*val/max_val),
+               label=label
+               )
     return f"{json.dumps(obj)}\n".encode()
 
 
 def get_cpu_usage():
     enumerate(psutil.cpu_percent(percpu=True, interval=1))
     cpu_usage = psutil.cpu_percent()
-    return format_output(type="cpu_usage", value=round(cpu_usage), label=f"{cpu_usage}%")
+    return format_output("cpu_usage", cpu_usage, 100, f"{cpu_usage}%")
 
 
 def get_cpu_clock():
     clock_current, clock_min, clock_max = psutil.cpu_freq()
-    return format_output(type="cpu_frq", value=round(100*(clock_current/clock_max)), lable=f"{clock_current:.0f}MHz")
+    return format_output("cpu_frq", clock_current, clock_max, f"{clock_current:.0f}MHz")
 
 
 def get_cpu_temp():
     temp = psutil.sensors_temperatures()["coretemp"][0].current
     temp_max = psutil.sensors_temperatures()["coretemp"][0].high
-    return format_output(type="cpu_tmp", value=round(100*temp/temp_max), label=f"{temp}C")
+    return format_output("cpu_tmp", temp, temp_max, f"{temp}C")
 
 
 def get_cpu_fan():
     fan_speed = psutil.sensors_fans()['asus'][0].current
     fan_max = 3200
-    return format_output(type="cpu_fan", value=round(100*fan_speed/fan_max), label=f"{fan_speed}RPM")
+    return format_output("cpu_fan", fan_speed, fan_max, f"{fan_speed}RPM")
 
 
 def get_ram():
@@ -42,14 +47,12 @@ def get_ram():
     ram_size = get_size(svmem.total)
     ram_used = get_size(svmem.used)
     ram_msg = f"{ram_used}/{ram_size}"
-    return format_output(type="ram_usage", value=round(svmem.percent), label=ram_msg)
+    return format_output("ram_usage", svmem.percent, 100, ram_msg)
 
 
 def get_disk_usage():
-    total, used, free, percent = psutil.disk_usage("/")
-    total = get_size(total)
-    used = get_size(used)
-    return format_output(type="disk_usage", value=round(percent), label=f"{used}/{total}")
+    total, used, free = shutil.disk_usage("/")
+    return format_output("disk_usage", used, total, f"{get_size(used)}/{get_size(total)}")
 
 
 print(get_cpu_usage())
