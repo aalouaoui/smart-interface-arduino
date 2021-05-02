@@ -36,59 +36,24 @@ public:
             state = -1;
             return;
         }
-        int x = 0;
-        int y = 0;
-        switch (button)
+
+        int x = button == BTN_RIGHT ? 1 : (button == BTN_LEFT ? -1 : 0);
+        int y = button == BTN_DOWN ? 1 : (button == BTN_UP ? -1 : 0);
+
+        if (state <= OLED_LAST_GRAPH)
         {
-        case BTN_UP:
-            y = -1;
-            break;
-        case BTN_DOWN:
-            y = 1;
-            break;
-        case BTN_RIGHT:
-            x = 1;
-            break;
-        case BTN_LEFT:
-            x = -1;
-            break;
-        }
-        if (state == -1)
-        {
-            switch (button)
-            {
-            case BTN_DOWN:
+            if (y == 1)
                 mainMenu.down();
-                break;
-            case BTN_UP:
+            else if (y == -1)
                 mainMenu.up();
-                break;
-            case BTN_RIGHT:
-                state = mainMenu.selection();
-                break;
-            }
+            state = x == 1 || state != -1 ? mainMenu.selection() : state;
         }
-        else if (state <= OLED_LAST_GRAPH)
-        {
-            switch (button)
-            {
-            case BTN_UP:
-                mainMenu.up();
-                state = mainMenu.selection();
-                break;
-            case BTN_DOWN:
-                mainMenu.down();
-                state = mainMenu.selection();
-                break;
-            }
-        }
+
         else if (state == 8)
         {
             motorScreenState += y;
-            if (motorScreenState > 2)
-                motorScreenState = 0;
-            else if (motorScreenState < 0)
-                motorScreenState = 2;
+            motorScreenState = motorScreenState > 2 ? 0 : motorScreenState;
+            motorScreenState = motorScreenState < 0 ? 2 : motorScreenState;
 
             if (motorScreenState == 0 && x != 0)
                 tempMotor.autoMode = !tempMotor.autoMode;
