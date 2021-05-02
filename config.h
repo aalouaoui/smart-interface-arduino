@@ -74,4 +74,6 @@ const int GRAPH_LABEL_Y = 4;
 const int GRAPH_VALUE_X = 100;
 const int GRAPH_VALUE_MAX_LENGTH = 16;
 
+const int CONTROL_STEP = 5;
+
 #endif

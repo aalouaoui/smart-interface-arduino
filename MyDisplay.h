@@ -49,7 +49,7 @@ public:
             state = x == 1 || state != -1 ? mainMenu.selection() : state;
         }
 
-        else if (state == 8)
+        else if (state == MOTOR_CONTROL)
         {
             motorScreenState += y;
             motorScreenState = motorScreenState > 2 ? 0 : motorScreenState;
@@ -58,9 +58,9 @@ public:
             if (motorScreenState == 0 && x != 0)
                 tempMotor.autoMode = !tempMotor.autoMode;
             else if (motorScreenState == 1 && !tempMotor.autoMode)
-                tempMotor.speed = constrain(tempMotor.speed + 5 * x, 0, 100);
+                tempMotor.speed = constrain(tempMotor.speed + CONTROL_STEP * x, 0, 100);
             else if (motorScreenState == 2)
-                tempMotor.targetTemp = constrain(tempMotor.targetTemp + 5 * x, 0, 100);
+                tempMotor.targetTemp = constrain(tempMotor.targetTemp + CONTROL_STEP * x, TEMP_MIN, TEMP_MAX);
         }
     }
 
@@ -107,10 +107,14 @@ public:
         const char *mode = tempMotor.autoMode ? "<AUTO>" : "<MANUEL>";
         printControlLine(1, "Mode:", mode, motorScreenState == 0);
 
-        String speed = (tempMotor.autoMode ? "" : "<") + String(tempMotor.speedText) + (tempMotor.autoMode ? "" : ">");
+        String speed = (tempMotor.autoMode || tempMotor.speed == 0 ? "" : "<");
+        speed += String(tempMotor.speedText);
+        speed += (tempMotor.autoMode || tempMotor.speed == 100 ? "" : ">");
         printControlLine(2, "Speed:", speed.c_str(), motorScreenState == 1);
 
-        String tempTarget = "<" + String(tempMotor.targetTemp) + "C" + ">";
+        String tempTarget = tempMotor.targetTemp != TEMP_MIN ? "<" : "";
+        tempTarget += String(tempMotor.targetTemp) + "C";
+        tempTarget += tempMotor.targetTemp != TEMP_MAX ? ">" : "";
         printControlLine(3, "Temp Target:", tempTarget.c_str(), motorScreenState == 2);
     }
 
