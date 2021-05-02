@@ -19,5 +19,9 @@ try:
         for data in get_graph_data():
             ser.write(data)
             time.sleep(send_deltatime)
+            if(ser.in_waiting != 0):
+                receivedData = ser.readline().decode().strip()
+                print(receivedData)
+
 except KeyboardInterrupt:
     ser.close()
