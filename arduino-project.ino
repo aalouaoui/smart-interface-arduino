@@ -23,7 +23,7 @@ void loop()
 {
     // Input Handling
     int pressedButton = analogButtons.getState();
-    myDisplay.navigate(pressedButton);
+    myDisplay.navigate(pressedButton, tempMotor);
 
     // Read Sensor Data
     if (cycles == 0)
@@ -44,7 +44,7 @@ void loop()
     myDisplay.updateValueChar(tempMotor.speedText, VENTILATION);
 
     // Render
-    myDisplay.render();
+    myDisplay.render(tempMotor);
     delay(FRAMETIME);
 }
 

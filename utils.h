@@ -10,7 +10,7 @@ void shiftArrayRight(int *arr, int len)
     }
 }
 
-int getLen(char *arr)
+int getLen(const char *arr)
 {
     int i = 0;
     while (arr[i] != '\0')
@@ -18,7 +18,7 @@ int getLen(char *arr)
     return i;
 }
 
-int getXPos(char *arr)
+int getXPos(const char *arr)
 {
     return 127 - 6 * getLen(arr);
 }

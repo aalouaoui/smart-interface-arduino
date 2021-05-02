@@ -14,6 +14,7 @@ class MyDisplay
 {
 public:
     int state = -1;
+    int motorScreenState = 0;
     int values[OLED_MENU_COUNT][GRAPH_X_COUNT + 1] = {{0}};
     char valuesChar[OLED_MENU_COUNT][GRAPH_VALUE_MAX_LENGTH];
 
@@ -28,12 +29,29 @@ public:
         }
     }
 
-    void navigate(int button)
+    void navigate(int button, TempMotor &tempMotor)
     {
         if (button == BTN_MENU)
         {
             state = -1;
             return;
+        }
+        int x = 0;
+        int y = 0;
+        switch (button)
+        {
+        case BTN_UP:
+            y = -1;
+            break;
+        case BTN_DOWN:
+            y = 1;
+            break;
+        case BTN_RIGHT:
+            x = 1;
+            break;
+        case BTN_LEFT:
+            x = -1;
+            break;
         }
         if (state == -1)
         {
@@ -64,6 +82,21 @@ public:
                 break;
             }
         }
+        else if (state == 8)
+        {
+            motorScreenState += y;
+            if (motorScreenState > 2)
+                motorScreenState = 0;
+            else if (motorScreenState < 0)
+                motorScreenState = 2;
+
+            if (motorScreenState == 0 && x != 0)
+                tempMotor.autoMode = !tempMotor.autoMode;
+            else if (motorScreenState == 1 && !tempMotor.autoMode)
+                tempMotor.speed = constrain(tempMotor.speed + 5 * x, 0, 100);
+            else if (motorScreenState == 2)
+                tempMotor.targetTemp = constrain(tempMotor.targetTemp + 5 * x, 0, 100);
+        }
     }
 
     void updateValue(int value, int where)
@@ -92,7 +125,31 @@ public:
         }
     }
 
-    void render()
+    void printControlLine(int line, const char *name, const char *value, bool inverted)
+    {
+        OLED.printFixed(0, line * 16, name, STYLE_NORMAL);
+        if (inverted)
+            OLED.invertColors();
+        OLED.printFixed(getXPos(value), line * 16, value, STYLE_NORMAL);
+        if (inverted)
+            OLED.invertColors();
+    }
+
+    void renderMotorControl(TempMotor &tempMotor)
+    {
+        OLED.printFixed(getXPos("Motor Control") / 2, 4, "Motor Control", STYLE_NORMAL);
+
+        const char *mode = tempMotor.autoMode ? "<AUTO>" : "<MANUEL>";
+        printControlLine(1, "Mode:", mode, motorScreenState == 0);
+
+        String speed = (tempMotor.autoMode ? "" : "<") + String(tempMotor.speedText) + (tempMotor.autoMode ? "" : ">");
+        printControlLine(2, "Speed:", speed.c_str(), motorScreenState == 1);
+
+        String tempTarget = "<" + String(tempMotor.targetTemp) + "C" + ">";
+        printControlLine(3, "Temp Target:", tempTarget.c_str(), motorScreenState == 2);
+    }
+
+    void render(TempMotor &tempMotor)
     {
         OLED.clear();
         if (state == -1)
@@ -100,7 +157,7 @@ public:
         else if (state <= OLED_LAST_GRAPH)
             renderGraph();
         else
-            OLED.printFixed(0, 0, "Not Yet", STYLE_NORMAL);
+            renderMotorControl(tempMotor);
     }
 };
 
