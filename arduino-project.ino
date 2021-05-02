@@ -23,7 +23,8 @@ void loop()
 {
     // Input Handling
     int pressedButton = analogButtons.getState();
-    myDisplay.navigate(pressedButton, tempMotor);
+    if (pressedButton != 0)
+        myDisplay.navigate(pressedButton, tempMotor);
 
     // Read Sensor Data
     if (cycles == 0)
