@@ -3,17 +3,20 @@
 #include "TempMotor.h"
 #include "MyDisplay.h"
 #include "SerialHandler.h"
+#include "MultiLED.h"
 
 AnalogButtons analogButtons;
 TempMotor tempMotor;
 MyDisplay myDisplay;
 SerialHandler serialHandler;
+MultiLED multiLED;
 
 void setup()
 {
     tempMotor.begin();
     myDisplay.begin();
     serialHandler.init();
+    multiLED.init();
     delay(1000);
 }
 
@@ -43,6 +46,7 @@ void loop()
     myDisplay.updateValueChar(tempMotor.tempText, TEMPERATURE);
     myDisplay.updateValue(tempMotor.speed, VENTILATION);
     myDisplay.updateValueChar(tempMotor.speedText, VENTILATION);
+    multiLED.update(tempMotor.temp, tempMotor.targetTemp);
 
     // Render
     myDisplay.render(tempMotor);

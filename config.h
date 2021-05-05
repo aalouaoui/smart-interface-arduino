@@ -7,7 +7,8 @@ const float FRAMETIME = 1000 / 60;
 
 const int BUTTONS_PIN = A0;
 const int BUTTONS_COUNT = 5;
-const int BUTTONS_ARRAY[5] = {800, 1200, 2500, 3400, 4800};
+const int BUTTONS_ARRAY[5] = {800, 1200, 2500, 3400, /*empty range*/ 4800};
+// possible to add 4000 with 2x470 Resistor
 const int BUTTONS_EPSILON = 200;
 enum BUTTONS_NAMES
 {
@@ -75,5 +76,10 @@ const int GRAPH_VALUE_X = 100;
 const int GRAPH_VALUE_MAX_LENGTH = 16;
 
 const int CONTROL_STEP = 5;
+
+const int LED_GREEN_PIN = 4;
+const int LED_RED_PIN = 5;
+const int LED_GREEN_TRIGGER = 20;
+const int LED_RED_TRIGGER = 10;
 
 #endif
