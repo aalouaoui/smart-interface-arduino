@@ -7,8 +7,7 @@ const float FRAMETIME = 1000 / 60;
 
 const int BUTTONS_PIN = A0;
 const int BUTTONS_COUNT = 5;
-const int BUTTONS_ARRAY[5] = {800, 1200, 2500, 3400, /*empty range*/ 4800};
-// possible to add 4000 with 2x470 Resistor
+const int BUTTONS_ARRAY[5] = {1200, 2500, 3300, 4000, 4800};
 const int BUTTONS_EPSILON = 200;
 enum BUTTONS_NAMES
 {
